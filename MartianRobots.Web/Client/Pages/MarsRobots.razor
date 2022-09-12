@@ -1,0 +1,62 @@
+﻿@page "/"
+@using MartianRobots.Web.Shared
+@inject HttpClient Http
+
+<PageTitle>Mars Robots</PageTitle>
+
+<h1>Mars Robots</h1>
+<h2>Lost Robots - @lostRobots</h2> <h3><a href="swagger/" target="_blank">swagger</a></h3>
+
+@if (list==null) {
+    <p>Loading list</p>
+}
+else {
+    <table class="table">
+        <thead>
+            <tr>
+                <td width="10%">Created</td>
+                <th width="40%">Input</th>
+                <th width="40%">Output</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td>
+                    <label style="vertical-align:top">Input new case:</label>
+                    <textarea @bind=@newinput rows="10" style="width:100%"></textarea>
+                </td>
+                <td>
+                    <button class="btn btn-primary" style="vertical-align:top" @onclick="Solve">Solve</button>
+                </td>
+            </tr>
+    
+            @foreach (var solution in list)
+            {
+                <tr>
+                    <td>@solution.DateTimeStamp</td>
+                    <td>@HtmlHelper.RenderMultiline(@solution.Input)</td>
+                    <td>@HtmlHelper.RenderMultiline(@solution.Output)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private RobotSolutionModel[]? list;
+    private string newinput = "5 3\n1 1 E\nRFRFRFRF\n3 2 N\nFRRFLLFFRRFLL\n0 3 W\nLLFFFRFLFL";
+    private int lostRobots;
+
+    protected override async Task OnInitializedAsync()
+    {
+        list = await Http.GetFromJsonAsync<RobotSolutionModel[]>("MartianRobots");
+    }
+
+    private async Task Solve()
+    {
+        var t1 = await Http.PostAsJsonAsync("MartianRobots\\Solve", newinput);
+        list = await Http.GetFromJsonAsync<RobotSolutionModel[]>("MartianRobots");
+        lostRobots = await Http.GetFromJsonAsync<int>("MartianRobots\\LostRobots");
+    }
+}
