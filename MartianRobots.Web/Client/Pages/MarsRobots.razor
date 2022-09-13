@@ -51,6 +51,7 @@ else {
     protected override async Task OnInitializedAsync()
     {
         list = await Http.GetFromJsonAsync<RobotSolutionModel[]>("MartianRobots");
+        lostRobots = await Http.GetFromJsonAsync<int>("MartianRobots\\LostRobots");
     }
 
     private async Task Solve()

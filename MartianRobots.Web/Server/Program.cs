@@ -37,7 +37,6 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseHttpsRedirection();
 
 app.MapRazorPages();
 app.MapControllers();
