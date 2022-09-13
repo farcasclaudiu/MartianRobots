@@ -21,6 +21,8 @@ then browse <http://localhost:5003>
 docker run -p 5050:80 --name martianrobots clodyx/martianrobotswebserver
 ```
 
+then browse <http://localhost:5050>
+
 ## 4. Projects structure
 
 	MartianRobotsSolver - problem solver library
