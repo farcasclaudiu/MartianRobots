@@ -4,7 +4,7 @@
     {
         public RobotSolutionModel()
         {
-            
+            DateTimeStamp = DateTime.UtcNow;
         }
 
         public string Input { get; set; }
